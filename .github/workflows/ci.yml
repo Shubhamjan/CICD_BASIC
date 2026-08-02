@@ -53,5 +53,18 @@ jobs:
       - name: Build and Test
         run: mvn clean verify
 
+#      - name: Build Docker Image
+#        run: docker build -t cicd-app .
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Build Docker Image
-        run: docker build -t cicd-app .
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/ci-cd:latest .
+
+      - name: Push Docker Image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/ci-cd:latest
