@@ -68,4 +68,4 @@ jobs:
       - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/ci-cd:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ github.sha }}
+#          docker push ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ github.sha }}
