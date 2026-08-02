@@ -39,3 +39,7 @@ jobs:
 
       - name: Run Unit Tests
         run: mvn test
+
+      - name: Build Docker Image
+        run: |
+          docker build -t cicd-app .
