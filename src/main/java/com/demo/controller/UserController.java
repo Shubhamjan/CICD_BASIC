@@ -28,6 +28,7 @@ public class UserController {
 
     @GetMapping
     public List<User> getUsers() {
+        log.info("The all users ");
         return userService.getAllUsers();
     }
 }
