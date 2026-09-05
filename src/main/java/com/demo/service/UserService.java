@@ -22,7 +22,7 @@ public class UserService {
     public User addUser(User user) {
 
 //        return userRepository.save(user);
-        userRepository.save(new User(user.getId(),user.getName(), user.getEmail()));
+        userRepository.save(user);
         return user;
     }
 
