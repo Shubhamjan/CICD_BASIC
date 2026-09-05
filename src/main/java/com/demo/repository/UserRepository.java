@@ -2,11 +2,14 @@ package com.demo.repository;
 
 import com.demo.entity.User;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.flogger.Flogger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Repository
 public class UserRepository {
 
@@ -19,6 +22,7 @@ public class UserRepository {
 
     public User save(User user) {
         userList.add(user);
+        log.info("Save the user");
         return user;
     }
 
