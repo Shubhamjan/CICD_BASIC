@@ -80,7 +80,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull shubhamjangale123/ci-cd:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ github.sha }}
             docker stop ci-cd || true
             docker rm ci-cd || true
             docker run -d \
