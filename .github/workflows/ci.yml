@@ -66,11 +66,11 @@ jobs:
         run: echo "Commit SHA = $GITHUB_SHA"
       - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/ci-cd:${GITHUB_SHA::7} .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ github.sha }} .
 
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/ci-cd:${GITHUB_SHA::7}
+          docker push ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ github.sha }}
 #          docker push ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ github.sha }}
 
       - name: Deploy to EC2
@@ -86,4 +86,4 @@ jobs:
             docker run -d \
               --name ci-cd \
               -p 8080:8080 \
-              shubhamjangale123/ci-cd:latest
+              ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ github.sha }}
