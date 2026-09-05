@@ -1,0 +1,32 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      rollback_sha:
+        description: "Docker image SHA to rollback to"
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Rollback on EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ inputs.rollback_sha }}
+
+            docker stop ci-cd || true
+            docker rm ci-cd || true
+
+            docker run -d \
+              --name ci-cd \
+              -p 8080:8080 \
+              ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ inputs.rollback_sha }}
