@@ -70,3 +70,18 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/ci-cd:latest
 #          docker push ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ github.sha }}
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull shubhamjangale123/ci-cd:latest
+            docker stop ci-cd || true
+            docker rm ci-cd || true
+            docker run -d \
+              --name ci-cd \
+              -p 8080:8080 \
+              shubhamjangale123/ci-cd:latest
