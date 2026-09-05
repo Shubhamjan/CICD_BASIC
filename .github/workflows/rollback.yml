@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ inputs.rollback_sha }}
+            docker pull ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ github.event.inputs.rollback_sha }}
 
             docker stop ci-cd || true
             docker rm ci-cd || true
@@ -29,4 +29,4 @@ jobs:
             docker run -d \
               --name ci-cd \
               -p 8080:8080 \
-              ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ inputs.rollback_sha }}
+              ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ github.event.inputs.rollback_sha }}
