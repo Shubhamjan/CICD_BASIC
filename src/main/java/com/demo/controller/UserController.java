@@ -29,7 +29,7 @@ public class UserController {
     @GetMapping
     public List<User> getUsers() {
         log.info("The all users successfully");
-        log.info("Hi");
+        log.info("Hi  ");
         return userService.getAllUsers();
     }
 }
