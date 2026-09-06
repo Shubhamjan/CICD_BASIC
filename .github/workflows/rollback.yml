@@ -2,17 +2,34 @@ name: Rollback
 
 on:
   workflow_dispatch:
-    inputs:
-      rollback_sha:
-        description: "Docker image SHA to rollback to"
-        required: true
-        type: string
+#    inputs:
+#      rollback_sha:
+#        description: "Docker image SHA to rollback to"
+#        required: true
+#        type: string
 
+permissions:
+  actions: read
 jobs:
   rollback:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Find latest successful CI run
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RUN_ID=$(gh run list \
+            --workflow="Spring Boot CI" \
+            --status=success \
+            --limit=1 \
+            --json databaseId \
+            --jq '.[0].databaseId')
+            
+          echo "Latest successful run ID: $RUN_ID"
+          echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+
       - name: Rollback on EC2
         uses: appleboy/ssh-action@v1.2.0
         with:
