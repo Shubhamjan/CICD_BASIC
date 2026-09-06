@@ -87,3 +87,13 @@ jobs:
               --name ci-cd \
               -p 8080:8080 \
               ${{ secrets.DOCKER_USERNAME }}/ci-cd:${{ github.sha }}
+
+      - name: Save Successful Deployment SHA
+        run: |
+          echo "${{ github.sha }}" > deployed_sha.txt
+
+      - name: Upload Deployment SHA
+        uses: actions/upload-artifact@v4
+        with:
+          name: last-successful-deployment
+          path: deployed_sha.txt
