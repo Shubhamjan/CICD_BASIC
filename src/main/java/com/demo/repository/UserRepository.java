@@ -27,6 +27,7 @@ public class UserRepository {
     }
 
     public List<User> findAll() {
+        log.info("Retrieving the users");
         return userList;
     }
 }
