@@ -25,6 +25,13 @@ jobs:
           echo "Latest successful run ID: $RUN_ID"
           echo "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
 
+      - name: Download deployment SHA
+        uses: actions/download-artifact@v4
+        with:
+          name: last-successful-deployment
+          run-id: ${{ env.RUN_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Rollback on EC2
         uses: appleboy/ssh-action@v1.2.0
         with:
