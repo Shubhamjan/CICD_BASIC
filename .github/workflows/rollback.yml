@@ -20,16 +20,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          RUN_ID=$(gh run list \
-            --repo ${{ github.repository }} \            
-            --workflow="Spring Boot CI" \
-            --status=success \
-            --limit=1 \
-            --json databaseId \
-            --jq '.[0].databaseId')
-            
+          RUN_ID=$(gh run list --repo "${{ github.repository }}" --workflow "Spring Boot CI" --status success --limit 1 --json databaseId --jq '.[0].databaseId')
+
           echo "Latest successful run ID: $RUN_ID"
-          echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+          echo "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
 
       - name: Rollback on EC2
         uses: appleboy/ssh-action@v1.2.0
