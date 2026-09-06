@@ -17,6 +17,7 @@ public class UserRepository {
 
     @PostConstruct
     public void init () {
+        log.info("List initialized");
         userList = new ArrayList<>();
     }
 
